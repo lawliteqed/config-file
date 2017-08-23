@@ -48,18 +48,56 @@ autocmd FileType python setlocal completeopt-=preview
 "----------------------------------------------------------
 
 " Disable AutoComplPop.
-let g:acp_enableAtStartup = 1
-" Use neocomplete.
-let g:neocomplete#enable_at_startup = 1
-" Use smartcase.
+"let g:acp_enableAtStartup = 1
 let g:neocomplete#enable_smart_case = 1
 " Set minimum syntax keyword length.
 let g:neocomplete#sources#syntax#min_keyword_length = 3
+let g:neocomplete#data_directory = $HOME .'/.cache/dein/repos/github.com/Shougo/neocomplete.vim'
+
+let g:neocomplete#delimiter_patterns           = {
+\    'javascript': ['.'],
+\    'php':        ['->', '::', '\'],
+\    'ruby':       ['::']
+\}
+
+let g:neocomplete#enable_at_startup = 1
+let g:neocomplete#enable_auto_close_preview = 1
+let g:neocomplete#enable_auto_delimiter     = 1
+let g:neocomplete#enable_auto_select        = 0
+let g:neocomplete#enable_fuzzy_completion   = 0
+let g:neocomplete#enable_smart_case         = 1
+let g:neocomplete#keyword_patterns          = {'_': '\h\w*'}
+let g:neocomplete#lock_buffer_name_pattern  = '\.log\|.*quickrun.*\|.jax'
+let g:neocomplete#max_keyword_width         = 30
+let g:neocomplete#max_list                  = 8
+let g:neocomplete#min_keyword_length        = 3
+let g:neocomplete#sources                   = {
+\    '_':          ['neosnippet', 'file',               'buffer'],
+\    'css':        ['neosnippet',         'dictionary', 'buffer'],
+\    'html':       ['neosnippet', 'file', 'dictionary', 'buffer'],
+\    'javascript': ['neosnippet', 'file', 'dictionary', 'buffer'],
+\    'php':        ['neosnippet', 'file', 'dictionary', 'buffer']
+\}
+
+let g:neocomplete#sources#buffer#cache_limit_size  = 50000
+let g:neocomplete#sources#buffer#disabled_pattern  = '\.log\|\.jax'
+let g:neocomplete#sources#buffer#max_keyword_width = 30
+
+let g:neocomplete#sources#dictionary#dictionaries  = {
+\    '_':          '',
+\    'css':        $HOME . '/.vim/dict/css.dict',
+\    'html':       $HOME . '/.vim/dict/html.dict',
+\    'javascript': $HOME . '/.vim/dict/javascript.dict',
+\    'php':        $HOME . '/.vim/dict/php.dict'
+\}
+
+
 
 
 " Enable omni completion.
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType php,html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType php setlocal omnifunc=phpcomplete#CompleteTags
 autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
@@ -73,7 +111,6 @@ endif
 
 " let g:neocomplete#force_omni_input_patterns.python = '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
 let g:neocomplete#force_omni_input_patterns.python = '\h\w*\|[^. \t]\.\w*'
-
 
 "------------------------------------
 " neosnippet
@@ -101,8 +138,6 @@ smap <expr><TAB> neosnippet#jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : 
 if has('conceal')
  set conceallevel=2 concealcursor=i
 endif
-
-
 
 
 
