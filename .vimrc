@@ -1,5 +1,10 @@
-let mapleader = ","
-noremap \ ,
+"let mapleader = ","
+"noremap \ ,
+
+
+
+autocmd BufNewFile,BufRead *.rb setfiletype=ruby
+
 
 " プラグインが実際にインストールされるディレクトリ
 let s:dein_dir = expand('~/.cache/dein')
@@ -14,7 +19,6 @@ if &runtimepath !~# '/dein.vim'
   execute 'set runtimepath^=' . fnamemodify(s:dein_repo_dir, ':p')
 endif
 
-"let $PATH = "~/.pyenv/shims:".$PATH
 
 " 設定開始
 if dein#load_state(s:dein_dir)
@@ -39,6 +43,9 @@ endif
 if dein#check_install()
   call dein#install()
 endif
+
+
+
 
 
 autocmd FileType python setlocal completeopt-=preview
@@ -70,13 +77,14 @@ let g:neocomplete#keyword_patterns          = {'_': '\h\w*'}
 let g:neocomplete#lock_buffer_name_pattern  = '\.log\|.*quickrun.*\|.jax'
 let g:neocomplete#max_keyword_width         = 30
 let g:neocomplete#max_list                  = 8
-let g:neocomplete#min_keyword_length        = 3
+let g:neocomplete#min_keyword_length        = 1
 let g:neocomplete#sources                   = {
 \    '_':          ['neosnippet', 'file',               'buffer'],
 \    'css':        ['neosnippet',         'dictionary', 'buffer'],
 \    'html':       ['neosnippet', 'file', 'dictionary', 'buffer'],
 \    'javascript': ['neosnippet', 'file', 'dictionary', 'buffer'],
-\    'php':        ['neosnippet', 'file', 'dictionary', 'buffer']
+\    'php':        ['neosnippet', 'file', 'dictionary', 'buffer'],
+\    'ruby':       ['neosnippet', 'file', 'dictionary', 'buffer']
 \}
 
 let g:neocomplete#sources#buffer#cache_limit_size  = 50000
@@ -84,33 +92,35 @@ let g:neocomplete#sources#buffer#disabled_pattern  = '\.log\|\.jax'
 let g:neocomplete#sources#buffer#max_keyword_width = 30
 
 let g:neocomplete#sources#dictionary#dictionaries  = {
-\    '_':          '',
 \    'css':        $HOME . '/.vim/dict/css.dict',
 \    'html':       $HOME . '/.vim/dict/html.dict',
 \    'javascript': $HOME . '/.vim/dict/javascript.dict',
-\    'php':        $HOME . '/.vim/dict/php.dict'
+\    'php':        $HOME . '/.vim/dict/php.dict',
+\    'ruby':       $HOME . '/.vim/dict/ruby.dict'
 \}
 
-
-
-
-" Enable omni completion.
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType php,html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType php setlocal omnifunc=phpcomplete#CompleteTags
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-
-autocmd FileType python setlocal omnifunc=jedi#completions
-let g:jedi#completions_enabled = 0
-let g:jedi#auto_vim_configuration = 0
 
 if !exists('g:neocomplete#force_omni_input_patterns')
         let g:neocomplete#force_omni_input_patterns = {}
 endif
-
 " let g:neocomplete#force_omni_input_patterns.python = '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
 let g:neocomplete#force_omni_input_patterns.python = '\h\w*\|[^. \t]\.\w*'
+"let g:neocomplete#force_omni_input_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
+let g:neocomplete#force_omni_input_patterns.javascript = '[^. \t]\.\w*'
+
+
+" Enable omni completion.
+autocmd FileType html,css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType php setlocal omnifunc=phpcomplete#CompleteTags
+autocmd FileType html,javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+"autocmd FileType python setlocal omnifunc=jedi#completions
+
+
+
+let g:jedi#completions_enabled = 0
+let g:jedi#auto_vim_configuration = 0
 
 "------------------------------------
 " neosnippet
@@ -201,7 +211,7 @@ set wrapscan
 set hlsearch
 inoremap <silent> jj <ESC>l
 inoremap <silent> ,, <ESC>la,<ESC>a<SPACE>
-inoremap ;; <C-O>$;<ESC>
+inoremap ;; <C-O>$;<ESC>o
 nnoremap <S-l> $l
 nnoremap <S-h> 0
 nnoremap <silent> ss :w<ENTER>
@@ -214,6 +224,8 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-h> <C-w>h
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
+nnoremap <silent> <Space><Space> :tabnew<ENTER>:e ~/.vimrc<ENTER>
+nnoremap <C-c> :!bash % <ENTER>
 
 augroup vimrcEx
   au BufRead * if line("'\"") > 0 && line("'\"") <= line("$") |
