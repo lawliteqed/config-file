@@ -56,43 +56,53 @@ autocmd FileType python setlocal completeopt-=preview
 " neocomplete・neosnippetの設定
 "----------------------------------------------------------
 
+" _(アンダースコア)区切りの補完を有効化
+let g:neocomplcache_enable_at_startup = 1
+let g:neocomplcache_enable_smart_case = 1
+let g:neocomplcache_min_syntax_length = 3
+let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
+let g:neocomplcache_enable_underbar_completion = 1
+let g:neocomplcache_enable_camel_case_completion  =  1
+" 最初の補完候補を選択状態にする
+let g:neocomplcache_enable_auto_select = 1
+"let g:neocomplcache_max_list = 20
+
+
+"バックスペースで補完ポップアップを閉じる
+inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
+inoremap <expr><BS> neocomplete#smart_close_popup()."<C-h>"
+
+"最初の候補が選ばれてしまうのを無理やり防ぐ-issues26
+let g:neocomplete#enable_refresh_always = 1
+
 " Disable AutoComplPop.
 let g:acp_enableAtStartup = 0
 " Use neocomplete.
 let g:neocomplete#enable_at_startup = 1
 " Use smartcase.
 let g:neocomplete#enable_smart_case = 1
-
-" _(アンダースコア)区切りの補完を有効化
-let g:neocomplcache_enable_underbar_completion = 1
-let g:neocomplcache_enable_camel_case_completion  =  1
-" 最初の補完候補を選択状態にする
-let g:neocomplcache_enable_auto_select = 1
-
 " Set minimum syntax keyword length.
-let g:neocomplete#sources#syntax#min_keyword_length = 2
+let g:neocomplete#sources#syntax#min_keyword_length = 3
 
-"バックスペースで補完ポップアップを閉じる
-inoremap <expr><BS> neocomplete#smart_close_popup()."<C-h>"
-
-
-"let g:neocomplete#data_directory = $HOME .'/.cache/dein/repos/github.com/Shougo/neocomplete.vim'
+let g:neocomplete#data_directory = $HOME .'/.cache/dein/repos/github.com/Shougo/neocomplete.vim'
 let g:neocomplete#delimiter_patterns           = {
 \    'javascript': ['.'],
 \    'php':        ['->', '::', '\'],
-\    'ruby':       ['::','.']
+\    'ruby':       ['::']
 \}
+
+let g:neocomplete#enable_complete_select = 1
 
 let g:neocomplete#enable_auto_close_preview = 1
 let g:neocomplete#enable_auto_delimiter     = 1
-let g:neocomplete#enable_auto_select        = 0
+"let g:neocomplete#enable_auto_select        = 0
 let g:neocomplete#enable_fuzzy_completion   = 0
 let g:neocomplete#enable_smart_case         = 1
-"let g:neocomplete#keyword_patterns          = {'_': '\h\w*'}
+let g:neocomplete#keyword_patterns          = {'_': '\h\w*'}
 let g:neocomplete#lock_buffer_name_pattern  = '\.log\|.*quickrun.*\|.jax'
 let g:neocomplete#max_keyword_width         = 30
 let g:neocomplete#max_list                  = 8
-let g:neocomplete#min_keyword_length        = 1
+let g:neocomplete#min_keyword_length        = 3
 let g:neocomplete#sources                   = {
 \    '_':          ['neosnippet', 'file',               'buffer'],
 \    'css':        ['neosnippet',         'dictionary', 'buffer'],
@@ -122,8 +132,6 @@ let g:neocomplete#force_omni_input_patterns.python = '\h\w*\|[^. \t]\.\w*'
 "let g:neocomplete#force_omni_input_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
 let g:neocomplete#force_omni_input_patterns.javascript = '[^. \t]\.\w*'
 
-let g:rsenseUseOmniFunc = 1
-let g:rsenseHome = expand('/usr/local/rbenv/shims/rsense')
 
 " Enable omni completion.
 autocmd FileType html,css setlocal omnifunc=csscomplete#CompleteCSS
@@ -133,18 +141,19 @@ autocmd FileType html,javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 "autocmd FileType python setlocal omnifunc=jedi#completions
 
+if !exists('g:neocomplete#keyword_patterns')
+        let g:neocomplete#keyword_patterns = {}
+endif
+let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+
 if !exists('g:neocomplcache_omni_patterns')
     let g:neocomplcache_omni_patterns = {}
 endif
 let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
 autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
 
-if !exists('g:neocomplete#keyword_patterns')
-        let g:neocomplete#keyword_patterns = {}
-endif
-let g:neocomplete#keyword_patterns['default'] = '\h\w*'
-
-
+let g:rsenseHome = expand('/usr/local/rbenv/shims/rsense')
+let g:rsenseUseOmniFunc = 1
 
 "------------------------------------
 " neosnippet
@@ -246,7 +255,9 @@ nnoremap <C-h> <C-w>h
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 nnoremap <silent> <Space><Space> :tabnew<ENTER>:e ~/.vimrc<ENTER>
-nnoremap <C-c> :!bash % <ENTER>
+autocmd BufNewFile,BufRead *.py nnoremap <C-c> :!python %<ENTER>
+autocmd BufNewFile,BufRead *.rb nnoremap <C-c> :!ruby % hoge<ENTER>
+autocmd BufNewFile,BufRead *.sh nnoremap <C-c> :!bash %<ENTER>
 
 augroup vimrcEx
   au BufRead * if line("'\"") > 0 && line("'\"") <= line("$") |
