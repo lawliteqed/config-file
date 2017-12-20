@@ -8,7 +8,7 @@ let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
 let g:neocomplcache_enable_camel_case_completion = 1
 let g:neocomplcache_enable_underbar_completion = 1
 
-autocmd BufNewFile,BufRead *.rb setfiletype=ruby
+"autocmd BufNewFile,BufRead *.rb setfiletype=ruby
 
 
 " プラグインが実際にインストールされるディレクトリ
@@ -62,22 +62,25 @@ let g:acp_enableAtStartup = 0
 let g:neocomplete#enable_at_startup = 1
 " Use smartcase.
 let g:neocomplete#enable_smart_case = 1
+
 " _(アンダースコア)区切りの補完を有効化
 let g:neocomplcache_enable_underbar_completion = 1
 let g:neocomplcache_enable_camel_case_completion  =  1
-
 " 最初の補完候補を選択状態にする
 let g:neocomplcache_enable_auto_select = 1
 
+" Set minimum syntax keyword length.
+let g:neocomplete#sources#syntax#min_keyword_length = 2
+
+"バックスペースで補完ポップアップを閉じる
+inoremap <expr><BS> neocomplete#smart_close_popup()."<C-h>"
 
 
-
-let g:neocomplete#data_directory = $HOME .'/.cache/dein/repos/github.com/Shougo/neocomplete.vim'
-
+"let g:neocomplete#data_directory = $HOME .'/.cache/dein/repos/github.com/Shougo/neocomplete.vim'
 let g:neocomplete#delimiter_patterns           = {
 \    'javascript': ['.'],
 \    'php':        ['->', '::', '\'],
-\    'ruby':       ['::']
+\    'ruby':       ['::','.']
 \}
 
 let g:neocomplete#enable_auto_close_preview = 1
@@ -85,7 +88,7 @@ let g:neocomplete#enable_auto_delimiter     = 1
 let g:neocomplete#enable_auto_select        = 0
 let g:neocomplete#enable_fuzzy_completion   = 0
 let g:neocomplete#enable_smart_case         = 1
-let g:neocomplete#keyword_patterns          = {'_': '\h\w*'}
+"let g:neocomplete#keyword_patterns          = {'_': '\h\w*'}
 let g:neocomplete#lock_buffer_name_pattern  = '\.log\|.*quickrun.*\|.jax'
 let g:neocomplete#max_keyword_width         = 30
 let g:neocomplete#max_list                  = 8
@@ -115,11 +118,12 @@ let g:neocomplete#sources#dictionary#dictionaries  = {
 if !exists('g:neocomplete#force_omni_input_patterns')
         let g:neocomplete#force_omni_input_patterns = {}
 endif
-" let g:neocomplete#force_omni_input_patterns.python = '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
 let g:neocomplete#force_omni_input_patterns.python = '\h\w*\|[^. \t]\.\w*'
 "let g:neocomplete#force_omni_input_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
 let g:neocomplete#force_omni_input_patterns.javascript = '[^. \t]\.\w*'
 
+let g:rsenseUseOmniFunc = 1
+let g:rsenseHome = expand('/usr/local/rbenv/shims/rsense')
 
 " Enable omni completion.
 autocmd FileType html,css setlocal omnifunc=csscomplete#CompleteCSS
@@ -129,10 +133,18 @@ autocmd FileType html,javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 "autocmd FileType python setlocal omnifunc=jedi#completions
 
+if !exists('g:neocomplcache_omni_patterns')
+    let g:neocomplcache_omni_patterns = {}
+endif
+let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
+autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
+
+if !exists('g:neocomplete#keyword_patterns')
+        let g:neocomplete#keyword_patterns = {}
+endif
+let g:neocomplete#keyword_patterns['default'] = '\h\w*'
 
 
-let g:jedi#completions_enabled = 0
-let g:jedi#auto_vim_configuration = 0
 
 "------------------------------------
 " neosnippet
@@ -160,9 +172,6 @@ smap <expr><TAB> neosnippet#jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : 
 if has('conceal')
  set conceallevel=2 concealcursor=i
 endif
-
-
-
 
 "------------------------------------
 " supertab
@@ -243,3 +252,15 @@ augroup vimrcEx
   au BufRead * if line("'\"") > 0 && line("'\"") <= line("$") |
   \ exe "normal g`\"" | endif
 augroup END
+
+function! s:scroll_cursor_to_center()
+  if line("$") > winheight(0)
+    normal! zz
+  endif
+endfunction
+
+augroup CursorScroll
+  autocmd!
+  autocmd CursorMoved,CursorMovedI * call s:scroll_cursor_to_center()
+augroup END
+
