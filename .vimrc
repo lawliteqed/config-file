@@ -1,7 +1,12 @@
-"let mapleader = ","
-"noremap \ ,
+let mapleader = ","
+noremap \ ,
 
-
+let g:neocomplcache_enable_at_startup = 1
+let g:neocomplcache_enable_smart_case = 1
+let g:neocomplcache_min_syntax_length = 3
+let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
+let g:neocomplcache_enable_camel_case_completion = 1
+let g:neocomplcache_enable_underbar_completion = 1
 
 autocmd BufNewFile,BufRead *.rb setfiletype=ruby
 
@@ -45,9 +50,6 @@ if dein#check_install()
 endif
 
 
-
-
-
 autocmd FileType python setlocal completeopt-=preview
 
 "----------------------------------------------------------
@@ -55,10 +57,21 @@ autocmd FileType python setlocal completeopt-=preview
 "----------------------------------------------------------
 
 " Disable AutoComplPop.
-"let g:acp_enableAtStartup = 1
+let g:acp_enableAtStartup = 0
+" Use neocomplete.
+let g:neocomplete#enable_at_startup = 1
+" Use smartcase.
 let g:neocomplete#enable_smart_case = 1
-" Set minimum syntax keyword length.
-let g:neocomplete#sources#syntax#min_keyword_length = 3
+" _(アンダースコア)区切りの補完を有効化
+let g:neocomplcache_enable_underbar_completion = 1
+let g:neocomplcache_enable_camel_case_completion  =  1
+
+" 最初の補完候補を選択状態にする
+let g:neocomplcache_enable_auto_select = 1
+
+
+
+
 let g:neocomplete#data_directory = $HOME .'/.cache/dein/repos/github.com/Shougo/neocomplete.vim'
 
 let g:neocomplete#delimiter_patterns           = {
@@ -67,7 +80,6 @@ let g:neocomplete#delimiter_patterns           = {
 \    'ruby':       ['::']
 \}
 
-let g:neocomplete#enable_at_startup = 1
 let g:neocomplete#enable_auto_close_preview = 1
 let g:neocomplete#enable_auto_delimiter     = 1
 let g:neocomplete#enable_auto_select        = 0
