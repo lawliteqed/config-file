@@ -1,13 +1,6 @@
 let mapleader = ","
 noremap \ ,
 
-let g:neocomplcache_enable_at_startup = 1
-let g:neocomplcache_enable_smart_case = 1
-let g:neocomplcache_min_syntax_length = 3
-let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
-let g:neocomplcache_enable_camel_case_completion = 1
-let g:neocomplcache_enable_underbar_completion = 1
-
 "autocmd BufNewFile,BufRead *.rb setfiletype=ruby
 
 
@@ -56,53 +49,41 @@ autocmd FileType python setlocal completeopt-=preview
 " neocomplete・neosnippetの設定
 "----------------------------------------------------------
 
-" _(アンダースコア)区切りの補完を有効化
-let g:neocomplcache_enable_at_startup = 1
-let g:neocomplcache_enable_smart_case = 1
-let g:neocomplcache_min_syntax_length = 3
-let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
-let g:neocomplcache_enable_underbar_completion = 1
-let g:neocomplcache_enable_camel_case_completion  =  1
-" 最初の補完候補を選択状態にする
-let g:neocomplcache_enable_auto_select = 1
-"let g:neocomplcache_max_list = 20
-
-
 "バックスペースで補完ポップアップを閉じる
-inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
-inoremap <expr><BS> neocomplete#smart_close_popup()."<C-h>"
+"inoremap <expr><BS> neocomplete#smart_close_popup()."<C-h>"
 
 "最初の候補が選ばれてしまうのを無理やり防ぐ-issues26
-let g:neocomplete#enable_refresh_always = 1
+"let g:neocomplete#enable_refresh_always = 1
+
+"set completeopt-=noselect
+"set completeopt+=noinsert
 
 " Disable AutoComplPop.
 let g:acp_enableAtStartup = 0
-" Use neocomplete.
+
 let g:neocomplete#enable_at_startup = 1
-" Use smartcase.
 let g:neocomplete#enable_smart_case = 1
-" Set minimum syntax keyword length.
-let g:neocomplete#sources#syntax#min_keyword_length = 3
+let g:neocomplete#sources#syntax#min_keyword_length = 1
 
 let g:neocomplete#data_directory = $HOME .'/.cache/dein/repos/github.com/Shougo/neocomplete.vim'
 let g:neocomplete#delimiter_patterns           = {
 \    'javascript': ['.'],
 \    'php':        ['->', '::', '\'],
-\    'ruby':       ['::']
+\    'ruby':        ['::']
 \}
 
 let g:neocomplete#enable_complete_select = 1
 
 let g:neocomplete#enable_auto_close_preview = 1
 let g:neocomplete#enable_auto_delimiter     = 1
-"let g:neocomplete#enable_auto_select        = 0
+let g:neocomplete#enable_auto_select        = 0
 let g:neocomplete#enable_fuzzy_completion   = 0
 let g:neocomplete#enable_smart_case         = 1
 let g:neocomplete#keyword_patterns          = {'_': '\h\w*'}
 let g:neocomplete#lock_buffer_name_pattern  = '\.log\|.*quickrun.*\|.jax'
 let g:neocomplete#max_keyword_width         = 30
-let g:neocomplete#max_list                  = 8
-let g:neocomplete#min_keyword_length        = 3
+let g:neocomplete#max_list                  = 15
+let g:neocomplete#min_keyword_length        = 1
 let g:neocomplete#sources                   = {
 \    '_':          ['neosnippet', 'file',               'buffer'],
 \    'css':        ['neosnippet',         'dictionary', 'buffer'],
@@ -129,7 +110,7 @@ if !exists('g:neocomplete#force_omni_input_patterns')
         let g:neocomplete#force_omni_input_patterns = {}
 endif
 let g:neocomplete#force_omni_input_patterns.python = '\h\w*\|[^. \t]\.\w*'
-"let g:neocomplete#force_omni_input_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
+let g:neocomplete#force_omni_input_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
 let g:neocomplete#force_omni_input_patterns.javascript = '[^. \t]\.\w*'
 
 
@@ -139,6 +120,7 @@ autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
 autocmd FileType php setlocal omnifunc=phpcomplete#CompleteTags
 autocmd FileType html,javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+"autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
 "autocmd FileType python setlocal omnifunc=jedi#completions
 
 if !exists('g:neocomplete#keyword_patterns')
@@ -146,41 +128,40 @@ if !exists('g:neocomplete#keyword_patterns')
 endif
 let g:neocomplete#keyword_patterns['default'] = '\h\w*'
 
-if !exists('g:neocomplcache_omni_patterns')
-    let g:neocomplcache_omni_patterns = {}
-endif
-let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
-autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
-
-let g:rsenseHome = expand('/usr/local/rbenv/shims/rsense')
-let g:rsenseUseOmniFunc = 1
-
 "------------------------------------
 " neosnippet
 "------------------------------------
 
 let g:neosnippet#enable_snipmate_compatibility = 1
-let g:neosnippet#snippets_directory="~/.cache/dein/repos/github.com/honza/vim-snippets/snippets/"
+let g:neosnippet#snippets_directory="~/.cache/dein/repos/github.com/honza/vim-snippets/snippets"
 
-
-inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<S-TAB>"
+inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<S-TAB>" 
 
 " Plugin key-mappings.
 " Note: It must be "imap" and "smap".  It uses <Plug> mappings.
 imap <C-k>     <Plug>(neosnippet_expand_or_jump)
 smap <C-k>     <Plug>(neosnippet_expand_or_jump)
-"xmap <C-k>     <Plug>(neosnippet_expand_target)
-
+xmap <C-k>     <Plug>(neosnippet_expand_target)
 
 
 " SuperTab like snippets behavior.
-imap <expr><TAB> neosnippet#jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-n>" : "\<TAB>"
-smap <expr><TAB> neosnippet#jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+"imap <expr><TAB> neosnippet#jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-n>" : "\<TAB>"
+"smap <expr><TAB> neosnippet#jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+
+imap <expr><TAB>
+ \ pumvisible() ? "\<C-n>" :
+ \ neosnippet#expandable_or_jumpable() ?
+ \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+\ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+
+
 
 " For conceal markers.
 if has('conceal')
  set conceallevel=2 concealcursor=i
 endif
+
 
 "------------------------------------
 " supertab
@@ -198,12 +179,14 @@ autocmd myvimrc filetype nerdtree nnoremap <buffer> <S-k> gt
 autocmd myvimrc filetype nerdtree nnoremap <buffer> <S-j> gT
 map <C-e> :NERDTreeToggle<CR>
 
+
+
 autocmd FileType python setlocal completeopt-=preview
 let g:jedi#completions_enabled = 1
 let g:jedi#auto_vim_configuration = 1
 let g:jedi#use_tabs_not_buffers = 1 
 let g:jedi#popup_select_first = 0 
-let g:jedi#popup_on_dot = 1 
+let g:jedi#popup_on_dot = 0 
 let g:jedi#goto_command = "<C-d>"
 let g:jedi#goto_assignments_command = "<leader>g"
 let g:jedi#goto_definitions_command = ""
@@ -246,7 +229,7 @@ nnoremap <S-l> $l
 nnoremap <S-h> 0
 nnoremap <silent> ss :w<ENTER>
 nnoremap <silent> qq :q!<ENTER>
-nnoremap O :<C-u>call append(expand('.'), '')<Cr>j
+"nnoremap O :<C-u>call append(expand('.'), '')<Cr>j
 nnoremap t :tabnew<ENTER>
 nnoremap <S-k> gt
 nnoremap <S-j> gT
@@ -264,14 +247,14 @@ augroup vimrcEx
   \ exe "normal g`\"" | endif
 augroup END
 
-function! s:scroll_cursor_to_center()
-  if line("$") > winheight(0)
-    normal! zz
-  endif
-endfunction
 
-augroup CursorScroll
-  autocmd!
-  autocmd CursorMoved,CursorMovedI * call s:scroll_cursor_to_center()
-augroup END
+"カーソルを中央に固定。
+set scrolloff=1000
 
+autocmd FileType yml set ts=4 sw=2 sts=2
+let g:ansible_unindent_after_newline = 1
+let g:ansible_extra_syntaxes = "monokai.vim"
+let g:ansible_attribute_highlight = "ob"
+let g:ansible_extra_keywords_highlight = 1
+
+au BufRead,BufNewFile *.yml set filetype=ansible

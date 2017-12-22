@@ -1,38 +1,26 @@
 [[plugins]]
-repo = 'Shougo/neocomplete.vim'
-
-[[plugins]]
 repo = 'Shougo/dein.vim'
 
 [[plugins]]
-repo = 'Shougo/neosnippet'
+repo = 'Shougo/unite.vim'
 
 [[plugins]]
-repo = 'cohama/lexima.vim'
+repo = 'Shougo/neosnippet.vim'
+
+[[plugins]]
+repo = 'Shougo/neocomplete.vim'
 
 [[plugins]]
 repo = 'Shougo/neosnippet-snippets'
 
 [[plugins]]
-repo = 'honza/vim-snippets'
-
-[[plugins]]
 repo = 'mattn/emmet-vim'
 
 [[plugins]]
-repo = 'Shougo/Unite.vim'
+repo = 'kana/vim-smartinput'
 
 [[plugins]]
-repo = 'vim-ruby/vim-ruby'
-
-[[plugins]]
-repo = 'rsense/rsense'
-
-[[plugins]]
-repo = 'scrooloose/nerdtree'
-
-[[plugins]]
-repo = 'davidhalter/jedi-vim'
+repo = 'honza/vim-snippets'
 
 [[plugins]]
 repo = 'hail2u/vim-css3-syntax'
@@ -41,16 +29,55 @@ repo = 'hail2u/vim-css3-syntax'
 repo = 'pangloss/vim-javascript'
 
 [[plugins]]
+repo = 'scrooloose/nerdtree'
+
+[[plugins]]
+repo = 'stephpy/vim-yaml'
+
+[[plugins]]
+repo = 'nathanaelkane/vim-indent-guides'
+
+[[plugins]]
 repo = 'othree/html5.vim'
 
 [[plugins]]
-repo = 'lilydjwg/colorizer'
+repo = 'jelera/vim-javascript-syntax'
 
 [[plugins]]
-repo = 'othree/yajs.vim'
+repo = 'ap/vim-css-color'
+
+[[plugins]]
+repo = 'mattn/webapi-vim'
+
+[[plugins]]
+repo = 'mizukmb/otenki.vim'
+
+[[plugins]]
+repo = 'JulesWang/css.vim'
+
+[[plugins]]
+repo = 'mojako/ref-sources.vim'
 
 [[plugins]]
 repo = 'pangloss/vim-javascript'
 
 [[plugins]]
-repo = 'marijnh/tern_for_vim'
+repo = 'thinca/vim-quickrun'
+
+[[plugins]]
+repo = 'thinca/vim-ref'
+
+[[plugins]]
+repo = 'mustardamus/jqapi'
+
+[[plugins]]
+repo = 'tokuhirom/jsref'
+
+[[plugins]]
+repo = 'vim-ruby/vim-ruby'
+
+[[plugins]]
+repo = 'szw/vim-tags'
+
+[[plugins]]
+repo = 'pearofducks/ansible-vim'
