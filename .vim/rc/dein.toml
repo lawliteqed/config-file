@@ -81,3 +81,4 @@ repo = 'szw/vim-tags'
 
 [[plugins]]
 repo = 'pearofducks/ansible-vim'
+
