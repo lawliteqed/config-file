@@ -2,6 +2,9 @@
 repo = 'Shougo/dein.vim'
 
 [[plugins]]
+repo = 'osyo-manga/vim-monster'
+
+[[plugins]]
 repo = 'Shougo/unite.vim'
 
 [[plugins]]
@@ -75,6 +78,9 @@ repo = 'tokuhirom/jsref'
 
 [[plugins]]
 repo = 'vim-ruby/vim-ruby'
+
+[[plugins]]
+repo = 'rhysd/unite-ruby-require.vim'
 
 [[plugins]]
 repo = 'szw/vim-tags'

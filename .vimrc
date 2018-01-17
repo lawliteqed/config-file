@@ -110,20 +110,35 @@ let g:neocomplete#sources#dictionary#dictionaries  = {
 \    'ruby':       $HOME . '/.vim/dict/ruby.dict'
 \}
 
+if !exists('g:neocomplete#force_omni_input_patterns')
+        let g:neocomplete#force_omni_input_patterns = {}
+endif
+let g:neocomplete#force_omni_input_patterns.python = '\h\w*\|[^. \t]\.\w*'
+let g:neocomplete#force_omni_input_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
+
 " Enable omni completion.
 autocmd FileType html,css setlocal omnifunc=csscomplete#CompleteCSS
 autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
 autocmd FileType php setlocal omnifunc=phpcomplete#CompleteTags
 autocmd FileType html,javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
 
-if !exists('g:neocomplete#force_omni_input_patterns')
-        let g:neocomplete#force_omni_input_patterns = {}
+
+"autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
+"let g:rubycomplete_rails = 1
+"let g:rubycomplete_buffer_loading = 1
+"let g:rubycomplete_classes_in_global = 1
+"let g:rubycomplete_include_object = 1
+"let g:rubycomplete_include_object_space = 1
+
+if has("autocmd")
+    autocmd FileType ruby set omnifunc=rubycomplete#Complete
+    autocmd FileType ruby let g:rubycomplete_buffer_loading=1
+    autocmd FileType ruby let g:rubycomplete_classes_in_global=0
+    autocmd FileType ruby let g:rubycomplete_include_object=1
+    autocmd FileType ruby let g:rubycomplete_include_object_space=1
 endif
-let g:neocomplete#force_omni_input_patterns.python = '\h\w*\|[^. \t]\.\w*'
-let g:neocomplete#force_omni_input_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
-let g:neocomplete#force_omni_input_patterns.javascript = '[^. \t]\.\w*'
+
 
 if !exists('g:neocomplete#sources#omni#input_patterns')
     let g:neocomplete#sources#omni#input_patterns = {}
@@ -135,6 +150,15 @@ if !exists('g:neocomplete#keyword_patterns')
         let g:neocomplete#keyword_patterns = {}
 endif
 let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+
+
+"rsenseのインストールフォルダがデフォルトと異なるので設定
+let g:rsenseHome = expand("/usr/local/rbenv/shims/rsense")
+let g:rsenseUseOmniFunc = 1
+
+" unite-ruby-require
+let g:unite_source_ruby_require_ruby_command = expand("/usr/local/rbenv/shims/ruby")
+
 
 "------------------------------------
 " neosnippet
@@ -218,7 +242,6 @@ set wrapscan
 " 検索語をハイライト表示
 set hlsearch
 inoremap <silent> jj <ESC>l
-inoremap <silent> cc <ESC>o
 inoremap <silent> ,, <ESC>la,<ESC>a<SPACE>
 inoremap ;; <C-O>$;<ESC>o
 nnoremap <S-l> $l
