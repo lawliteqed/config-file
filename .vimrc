@@ -64,7 +64,7 @@ let g:acp_enableAtStartup = 0
 let g:neocomplete#enable_at_startup = 1
 let g:neocomplete#enable_insert_char_pre = 1
 let g:neocomplete#enable_smart_case = 1
-let g:neocomplete#sources#syntax#min_keyword_length = 3
+let g:neocomplete#sources#syntax#min_keyword_length = 2
 
 let g:neocomplete#data_directory = $HOME .'/.cache/dein/repos/github.com/Shougo/neocomplete.vim'
 let g:neocomplete#delimiter_patterns           = {
@@ -85,15 +85,16 @@ let g:neocomplete#keyword_patterns          = {'_': '\h\w*'}
 let g:neocomplete#lock_buffer_name_pattern  = '\.log\|.*quickrun.*\|.jax'
 let g:neocomplete#max_keyword_width         = 30
 let g:neocomplete#max_list                  = 15
-let g:neocomplete#min_keyword_length        = 3
+let g:neocomplete#min_keyword_length        = 2
 
 let g:neocomplete#sources                   = {
-\    '_':          ['neosnippet', 'file',               'buffer'],
+\    '_':          ['neosnippet', 'file', 'dictionary', 'buffer'],
 \    'css':        ['neosnippet',         'dictionary', 'buffer'],
 \    'html':       ['neosnippet', 'file', 'dictionary', 'buffer'],
 \    'javascript': ['neosnippet', 'file', 'dictionary', 'buffer'],
 \    'php':        ['neosnippet', 'file', 'dictionary', 'buffer'],
 \    'ansible':    ['neosnippet', 'file', 'dictionary', 'buffer'],
+\    'python':     ['neosnippet', 'file', 'dictionary', 'buffer'],
 \    'ruby':       ['neosnippet', 'file', 'dictionary', 'buffer']
 \}
 
@@ -102,25 +103,27 @@ let g:neocomplete#sources#buffer#disabled_pattern  = '\.log\|\.jax'
 let g:neocomplete#sources#buffer#max_keyword_width = 30
 
 let g:neocomplete#sources#dictionary#dictionaries  = {
+\    '_':          $HOME . '/.vim/dict/common.dict',
 \    'css':        $HOME . '/.vim/dict/css.dict',
 \    'html':       $HOME . '/.vim/dict/html.dict',
 \    'javascript': $HOME . '/.vim/dict/javascript.dict',
 \    'php':        $HOME . '/.vim/dict/php.dict',
 \    'ansible':    $HOME . '/.vim/dict/ansible.dict',
+\    'python':     $HOME . '/.vim/dict/python_ver3.5.dict',
 \    'ruby':       $HOME . '/.vim/dict/ruby.dict'
 \}
 
 if !exists('g:neocomplete#force_omni_input_patterns')
         let g:neocomplete#force_omni_input_patterns = {}
 endif
-let g:neocomplete#force_omni_input_patterns.python = '\h\w*\|[^. \t]\.\w*'
+"let g:neocomplete#force_omni_input_patterns.python = '\h\w*\|[^. \t]\.\w*'
 "let g:neocomplete#force_omni_input_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
 
 " Enable omni completion.
 autocmd FileType html,css setlocal omnifunc=csscomplete#CompleteCSS
 autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
 autocmd FileType php setlocal omnifunc=phpcomplete#CompleteTags
-autocmd FileType html,javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType himpotml,javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
 
@@ -213,6 +216,7 @@ map <C-e> :NERDTreeToggle<CR>
 
 
 "filetype on
+filetype plugin on
 syntax enable
 
 " 見た目系
