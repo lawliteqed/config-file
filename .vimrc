@@ -95,6 +95,7 @@ let g:neocomplete#sources                   = {
 \    'php':        ['neosnippet', 'file', 'dictionary', 'buffer'],
 \    'ansible':    ['neosnippet', 'file', 'dictionary', 'buffer'],
 \    'python':     ['neosnippet', 'file', 'dictionary', 'buffer'],
+\    'eruby':       ['neosnippet', 'file', 'dictionary', 'buffer'],
 \    'ruby':       ['neosnippet', 'file', 'dictionary', 'buffer']
 \}
 
@@ -110,6 +111,7 @@ let g:neocomplete#sources#dictionary#dictionaries  = {
 \    'php':        $HOME . '/.vim/dict/php.dict',
 \    'ansible':    $HOME . '/.vim/dict/ansible.dict',
 \    'python':     $HOME . '/.vim/dict/python_ver3.5.dict',
+\    'eruby':       $HOME . '/.vim/dict/ruby.dict',
 \    'ruby':       $HOME . '/.vim/dict/ruby.dict'
 \}
 
@@ -121,7 +123,7 @@ endif
 
 " Enable omni completion.
 autocmd FileType html,css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType html,markdown,css setlocal omnifunc=htmlcomplete#CompleteTags
 autocmd FileType php setlocal omnifunc=phpcomplete#CompleteTags
 autocmd FileType himpotml,javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
@@ -189,6 +191,34 @@ imap <expr><TAB>
  \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
 \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+
+
+"--------------
+"nerdcommenter
+"--------------
+" Add spaces after comment delimiters by default
+let g:NERDSpaceDelims = 1
+
+" Use compact syntax for prettified multi-line comments
+let g:NERDCompactSexyComs = 1
+
+" Align line-wise comment delimiters flush left instead of following code indentation
+let g:NERDDefaultAlign = 'left'
+
+" Set a language to use its alternate delimiters by default
+let g:NERDAltDelims_java = 1
+
+" Add your own custom formats or override the defaults
+let g:NERDCustomDelimiters = { 'c': { 'left': '/**','right': '*/' } }
+
+" Allow commenting and inverting empty lines (useful when commenting a region)
+let g:NERDCommentEmptyLines = 1
+
+" Enable trimming of trailing whitespace when uncommenting
+let g:NERDTrimTrailingWhitespace = 1
+
+
+
 
 
 
@@ -262,6 +292,7 @@ nnoremap <C-h> <C-w>h
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 nnoremap <silent> <Space><Space> :tabnew<ENTER>:e ~/.vimrc<ENTER>
+nnoremap <silent> 11 :tabnew<ENTER>:e $VIM_SNIPPETS<ENTER>
 autocmd BufNewFile,BufRead *.py nnoremap <C-c> :!python %<ENTER>
 autocmd BufNewFile,BufRead *.rb nnoremap <C-c> :!ruby % s3<ENTER>
 autocmd BufNewFile,BufRead *.sh nnoremap <C-c> :!bash % sakai-zabbix<ENTER>
@@ -283,5 +314,9 @@ let g:ansible_unindent_after_newline = 1
 let g:ansible_extra_syntaxes = "monokai.vim"
 let g:ansible_attribute_highlight = "ob"
 let g:ansible_extra_keywords_highlight = 1
+
+autocmd FileType html set ts=2 sw=2 sts=2
+
+autocmd FileType ruby set ts=2 sw=2 sts=2
 
 call neocomplete#custom#source('file', 'rank', 10)
