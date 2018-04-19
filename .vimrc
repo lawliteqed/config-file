@@ -198,41 +198,24 @@ smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
 "--------------
 " Add spaces after comment delimiters by default
 let g:NERDSpaceDelims = 1
-
 " Use compact syntax for prettified multi-line comments
 let g:NERDCompactSexyComs = 1
-
 " Align line-wise comment delimiters flush left instead of following code indentation
 let g:NERDDefaultAlign = 'left'
-
 " Set a language to use its alternate delimiters by default
 let g:NERDAltDelims_java = 1
-
 " Add your own custom formats or override the defaults
 let g:NERDCustomDelimiters = { 'c': { 'left': '/**','right': '*/' } }
-
 " Allow commenting and inverting empty lines (useful when commenting a region)
 let g:NERDCommentEmptyLines = 1
-
 " Enable trimming of trailing whitespace when uncommenting
 let g:NERDTrimTrailingWhitespace = 1
-
-
-
-
 
 
 " For conceal markers.
 if has('conceal')
  set conceallevel=2 concealcursor=i
 endif
-
-
-"------------------------------------
-" supertab
-"------------------------------------
-"let g:SuperTabContextDefaultCompletionType = "context"
-"let g:SuperTabDefaultCompletionType = "<c-n>"
 
 "------------------------------------
 " NERDTree https://kamiya555.github.io/2015/10/14/nerdtree-command/
@@ -278,6 +261,12 @@ set hlsearch
 inoremap <silent> jj <ESC>l
 inoremap <silent> ,, <ESC>la,<ESC>a<SPACE>
 inoremap ;; <C-O>$;<ESC>o
+
+" オムニ補完
+inoremap <C-o> <C-x><C-o><C-p>
+" tags補完
+inoremap <C-t> <C-x><C-]><C-p>
+
 nnoremap <S-l> $l
 nnoremap <S-h> 0
 nnoremap gf <C-w>gf
@@ -293,9 +282,10 @@ nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 nnoremap <silent> <Space><Space> :tabnew<ENTER>:e ~/.vimrc<ENTER>
 nnoremap <silent> 11 :tabnew<ENTER>:e $VIM_SNIPPETS<ENTER>
+nnoremap <F3> :<C-u>tab stj <C-R>=expand('<cword>')<CR><CR>
 autocmd BufNewFile,BufRead *.py nnoremap <C-c> :!python %<ENTER>
 autocmd BufNewFile,BufRead *.rb nnoremap <C-c> :!ruby % s3<ENTER>
-autocmd BufNewFile,BufRead *.sh nnoremap <C-c> :!bash % sakai-zabbix<ENTER>
+autocmd BufNewFile,BufRead *.sh nnoremap <C-c> :!bash % zabbix<ENTER>
 
 augroup vimrcEx
   au BufRead * if line("'\"") > 0 && line("'\"") <= line("$") |
