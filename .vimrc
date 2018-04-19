@@ -296,6 +296,8 @@ augroup END
 "カーソルを中央に固定。
 set scrolloff=1000
 
+"ハイフン付きワードを検索
+:set isk+=-
 
 au BufRead,BufNewFile *.yml set filetype=ansible
 
