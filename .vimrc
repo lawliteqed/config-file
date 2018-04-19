@@ -299,6 +299,9 @@ set scrolloff=1000
 "ハイフン付きワードを検索
 :set isk+=-
 
+" オムニ補完でプレビュー画面表示しない
+set completeopt=menuone
+
 au BufRead,BufNewFile *.yml set filetype=ansible
 
 autocmd FileType ansible set ts=2 sw=2 sts=2
@@ -308,6 +311,9 @@ let g:ansible_attribute_highlight = "ob"
 let g:ansible_extra_keywords_highlight = 1
 
 autocmd FileType html set ts=2 sw=2 sts=2
+autocmd FileType html nnoremap <buffer> <S-l> f<
+autocmd FileType html nnoremap <buffer> <S-h> F>l
+
 
 autocmd FileType ruby set ts=2 sw=2 sts=2
 
