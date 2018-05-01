@@ -1,0 +1,12 @@
+./configure \
+--enable-fail-if-missing \
+ --disable-selinux \
+ --enable-luainterp \
+ --enable-perlinterp \
+ --enable-python3interp \
+ --with-python3-config-dir=/home/ec2-user/.pyenv/shims/ \
+ --enable-rubyinterp=dynamic \
+ --with-ruby-command=/home/ec2-user/.rbenv/shims/ruby \
+ --enable-cscope \
+ --enable-fontset \
+ --enable-multibyte \
