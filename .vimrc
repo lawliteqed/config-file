@@ -137,7 +137,7 @@ autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 "let g:rubycomplete_include_object_space = 1
 
 if has("autocmd")
-    autocmd FileType ruby set omnifunc=rubycomplete#Complete
+   autocmd FileType ruby set omnifunc=rubycomplete#Complete
     autocmd FileType ruby let g:rubycomplete_buffer_loading=1
     autocmd FileType ruby let g:rubycomplete_classes_in_global=0
     autocmd FileType ruby let g:rubycomplete_include_object=1
@@ -149,7 +149,7 @@ if !exists('g:neocomplete#sources#omni#input_patterns')
     let g:neocomplete#sources#omni#input_patterns = {}
 endif
 let g:neocomplete#sources#omni#input_patterns.python = ''
-let g:neocomplete#sources#omni#input_patterns.ruby = ''
+let g:neocomplete#sources#omni#input_patterns.ruby = ':'
 
 if !exists('g:neocomplete#keyword_patterns')
         let g:neocomplete#keyword_patterns = {}
@@ -191,6 +191,23 @@ imap <expr><TAB>
  \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
 \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+
+
+
+"--------------
+"jedi-vim
+"--------------
+
+
+"  let g:jedi#completions_command = "<c-space>"   
+"  let g:jedi#goto_assignments_command = "<c-g>"  
+"  let g:jedi#goto_definitions_command = "<c-d>"  
+  let g:jedi#documentation_command = "<c-k>"     
+"  let g:jedi#rename_command = "[jedi]r"
+"  let g:jedi#usages_command = "[jedi]n"
+"  let g:jedi#popup_select_first = 0
+"  let g:jedi#popup_on_dot = 0
+
 
 
 "--------------
@@ -292,6 +309,11 @@ augroup vimrcEx
   \ exe "normal g`\"" | endif
 augroup END
 
+"ipythonのhisotryを更新したとき、autoreload
+augroup py-checktime
+  autocmd!
+  autocmd TabEnter *.py :e!
+augroup END
 
 "カーソルを中央に固定。
 set scrolloff=1000
@@ -311,9 +333,8 @@ let g:ansible_attribute_highlight = "ob"
 let g:ansible_extra_keywords_highlight = 1
 
 autocmd FileType html set ts=2 sw=2 sts=2
-autocmd FileType html nnoremap <buffer> <S-l> f<
-autocmd FileType html nnoremap <buffer> <S-h> F>l
-
+autocmd FileType html nnoremap <buffer> <S-l> f>l
+autocmd FileType html nnoremap <buffer> <S-h> F<h
 
 autocmd FileType ruby set ts=2 sw=2 sts=2
 
