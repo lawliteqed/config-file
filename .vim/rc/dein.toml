@@ -1,7 +1,4 @@
 [[plugins]]
-repo = 'lambdalisue/vim-pyenv'
-
-[[plugins]]
 repo = 'Shougo/dein.vim'
 
 [[plugins]]
@@ -92,13 +89,4 @@ repo = 'tpope/vim-rails'
 repo = 'scrooloose/nerdcommenter'
 
 [[plugins]]
-repo = 'scrooloose/nerdcommenter'
-
-[[plugins]]
-repo = 'vim-scripts/python.vim'
-
-[[plugins]]
-repo = 'Shougo/denite.nvim'
-
-[[plugins]]
-repo = 'ivanov/vim-ipython'
+repo = 'chase/vim-ansible-yaml'

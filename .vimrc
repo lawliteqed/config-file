@@ -93,7 +93,7 @@ let g:neocomplete#sources                   = {
 \    'html':       ['neosnippet', 'file', 'dictionary', 'buffer'],
 \    'javascript': ['neosnippet', 'file', 'dictionary', 'buffer'],
 \    'php':        ['neosnippet', 'file', 'dictionary', 'buffer'],
-\    'ansible':    ['neosnippet', 'file', 'dictionary', 'buffer'],
+\    'yaml.ansible':    ['neosnippet', 'file', 'dictionary', 'buffer'],
 \    'python':     ['neosnippet', 'file', 'dictionary', 'buffer'],
 \    'eruby':       ['neosnippet', 'file', 'dictionary', 'buffer'],
 \    'ruby':       ['neosnippet', 'file', 'dictionary', 'buffer']
@@ -109,7 +109,7 @@ let g:neocomplete#sources#dictionary#dictionaries  = {
 \    'html':       $HOME . '/.vim/dict/html.dict',
 \    'javascript': $HOME . '/.vim/dict/javascript.dict',
 \    'php':        $HOME . '/.vim/dict/php.dict',
-\    'ansible':    $HOME . '/.vim/dict/ansible.dict',
+\    'yaml.ansible':    $HOME . '/.vim/dict/ansible.dict',
 \    'python':     $HOME . '/.vim/dict/python_ver3.5.dict',
 \    'eruby':       $HOME . '/.vim/dict/ruby.dict',
 \    'ruby':       $HOME . '/.vim/dict/ruby.dict'
@@ -300,7 +300,8 @@ nnoremap <C-l> <C-w>l
 nnoremap <silent> <Space><Space> :tabnew<ENTER>:e ~/.vimrc<ENTER>
 nnoremap <silent> 11 :tabnew<ENTER>:e $VIM_SNIPPETS<ENTER>
 nnoremap <F3> :<C-u>tab stj <C-R>=expand('<cword>')<CR><CR>
-autocmd BufNewFile,BufRead *.py nnoremap <C-c> :!python %<ENTER>
+autocmd BufNewFile,BufRead *.py nnoremap <C-c> :!python % i-064684cb95f2b91af <ENTER>
+autocmd BufNewFile,BufRead *.py nnoremap <C-x> :!python %  <ENTER>
 autocmd BufNewFile,BufRead *.rb nnoremap <C-c> :!ruby % s3<ENTER>
 autocmd BufNewFile,BufRead *.sh nnoremap <C-c> :!bash % zabbix<ENTER>
 
@@ -324,11 +325,11 @@ set scrolloff=1000
 " オムニ補完でプレビュー画面表示しない
 set completeopt=menuone
 
-au BufRead,BufNewFile *.yml set filetype=ansible
+au BufRead,BufNewFile *.yml set filetype=yaml.ansible
 
-autocmd FileType ansible set ts=2 sw=2 sts=2
+autocmd FileType yaml.ansible set ts=2 sw=2 sts=2
 let g:ansible_unindent_after_newline = 1
-let g:ansible_extra_syntaxes = "monokai.vim"
+let g:ansible_name_highlight = 'b'
 let g:ansible_attribute_highlight = "ob"
 let g:ansible_extra_keywords_highlight = 1
 
