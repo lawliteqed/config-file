@@ -1,0 +1,342 @@
+let mapleader = ","
+noremap \ ,
+
+au BufRead,BufNewFile *.rb set filetype=ruby
+au BufRead,BufNewFile *.erb set filetype=ruby
+
+" プラグインが実際にインストールされるディレクトリ
+let s:dein_dir = expand('~/.cache/dein')
+" dein.vim 本体
+let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
+
+" dein.vim がなければ github から落としてくる
+if &runtimepath !~# '/dein.vim'
+  if !isdirectory(s:dein_repo_dir)
+    execute '!git clone https://github.com/Shougo/dein.vim' s:dein_repo_dir
+  endif
+  execute 'set runtimepath^=' . fnamemodify(s:dein_repo_dir, ':p')
+endif
+
+
+" 設定開始
+if dein#load_state(s:dein_dir)
+  call dein#begin(s:dein_dir)
+
+  " プラグインリストを収めた TOML ファイル
+  " 予め TOML ファイル（後述）を用意しておく
+  let g:rc_dir    = expand('~/.vim/rc')
+  let s:toml      = g:rc_dir . '/dein.toml'
+  let s:lazy_toml = g:rc_dir . '/dein_lazy.toml'
+
+  " TOML を読み込み、キャッシュしておく
+  call dein#load_toml(s:toml,      {'lazy': 0})
+  call dein#load_toml(s:lazy_toml, {'lazy': 1})
+
+  " 設定終了
+  call dein#end()
+  call dein#save_state()
+endif
+
+" もし、未インストールものものがあったらインストール
+if dein#check_install()
+  call dein#install()
+endif
+
+
+autocmd FileType python setlocal completeopt-=preview
+
+"----------------------------------------------------------
+" neocomplete・neosnippetの設定
+"----------------------------------------------------------
+
+"バックスペースで補完ポップアップを閉じる
+"inoremap <expr><BS> neocomplete#smart_close_popup()."<C-h>"
+
+"最初の候補が選ばれてしまうのを無理やり防ぐ-issues26
+"let g:neocomplete#enable_refresh_always = 1
+
+"set completeopt-=noselect
+"set completeopt+=noinsert
+
+" Disable AutoComplPop.
+let g:acp_enableAtStartup = 0
+
+let g:neocomplete#enable_at_startup = 1
+let g:neocomplete#enable_insert_char_pre = 1
+let g:neocomplete#enable_smart_case = 1
+let g:neocomplete#sources#syntax#min_keyword_length = 2
+
+let g:neocomplete#data_directory = $HOME .'/.cache/dein/repos/github.com/Shougo/neocomplete.vim'
+let g:neocomplete#delimiter_patterns           = {
+\    'javascript': ['.'],
+\    'php':        ['->', '::', '\'],
+\    'ruby':        ['::']
+\}
+
+let g:neocomplete#enable_complete_select = 1
+
+
+let g:neocomplete#enable_auto_close_preview = 1
+let g:neocomplete#enable_auto_delimiter     = 1
+let g:neocomplete#enable_auto_select        = 0
+let g:neocomplete#enable_fuzzy_completion   = 0
+let g:neocomplete#enable_smart_case         = 1
+let g:neocomplete#keyword_patterns          = {'_': '\h\w*'}
+let g:neocomplete#lock_buffer_name_pattern  = '\.log\|.*quickrun.*\|.jax'
+let g:neocomplete#max_keyword_width         = 30
+let g:neocomplete#max_list                  = 15
+let g:neocomplete#min_keyword_length        = 2
+
+let g:neocomplete#sources                   = {
+\    '_':          ['neosnippet', 'file', 'dictionary', 'buffer'],
+\    'css':        ['neosnippet',         'dictionary', 'buffer'],
+\    'html':       ['neosnippet', 'file', 'dictionary', 'buffer'],
+\    'javascript': ['neosnippet', 'file', 'dictionary', 'buffer'],
+\    'php':        ['neosnippet', 'file', 'dictionary', 'buffer'],
+\    'yaml.ansible':    ['neosnippet', 'file', 'dictionary', 'buffer'],
+\    'python':     ['neosnippet', 'file', 'dictionary', 'buffer'],
+\    'eruby':       ['neosnippet', 'file', 'dictionary', 'buffer'],
+\    'ruby':       ['neosnippet', 'file', 'dictionary', 'buffer']
+\}
+
+let g:neocomplete#sources#buffer#cache_limit_size  = 50000
+let g:neocomplete#sources#buffer#disabled_pattern  = '\.log\|\.jax'
+let g:neocomplete#sources#buffer#max_keyword_width = 30
+
+let g:neocomplete#sources#dictionary#dictionaries  = {
+\    '_':          $HOME . '/.vim/dict/common.dict',
+\    'css':        $HOME . '/.vim/dict/css.dict',
+\    'html':       $HOME . '/.vim/dict/html.dict',
+\    'javascript': $HOME . '/.vim/dict/javascript.dict',
+\    'php':        $HOME . '/.vim/dict/php.dict',
+\    'yaml.ansible':    $HOME . '/.vim/dict/ansible.dict',
+\    'python':     $HOME . '/.vim/dict/python_ver3.5.dict',
+\    'eruby':       $HOME . '/.vim/dict/ruby.dict',
+\    'ruby':       $HOME . '/.vim/dict/ruby.dict'
+\}
+
+if !exists('g:neocomplete#force_omni_input_patterns')
+        let g:neocomplete#force_omni_input_patterns = {}
+endif
+"let g:neocomplete#force_omni_input_patterns.python = '\h\w*\|[^. \t]\.\w*'
+"let g:neocomplete#force_omni_input_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
+
+" Enable omni completion.
+autocmd FileType html,css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown,css setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType php setlocal omnifunc=phpcomplete#CompleteTags
+autocmd FileType himpotml,javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+
+
+"autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
+"let g:rubycomplete_rails = 1
+"let g:rubycomplete_buffer_loading = 1
+"let g:rubycomplete_classes_in_global = 1
+"let g:rubycomplete_include_object = 1
+"let g:rubycomplete_include_object_space = 1
+
+if has("autocmd")
+   autocmd FileType ruby set omnifunc=rubycomplete#Complete
+    autocmd FileType ruby let g:rubycomplete_buffer_loading=1
+    autocmd FileType ruby let g:rubycomplete_classes_in_global=0
+    autocmd FileType ruby let g:rubycomplete_include_object=1
+    autocmd FileType ruby let g:rubycomplete_include_object_space=1
+endif
+
+
+if !exists('g:neocomplete#sources#omni#input_patterns')
+    let g:neocomplete#sources#omni#input_patterns = {}
+endif
+let g:neocomplete#sources#omni#input_patterns.python = ''
+let g:neocomplete#sources#omni#input_patterns.ruby = ':'
+
+if !exists('g:neocomplete#keyword_patterns')
+        let g:neocomplete#keyword_patterns = {}
+endif
+let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+
+
+"rsenseのインストールフォルダがデフォルトと異なるので設定
+let g:rsenseHome = expand("/usr/local/rbenv/shims/rsense")
+let g:rsenseUseOmniFunc = 1
+
+" unite-ruby-require
+let g:unite_source_ruby_require_ruby_command = expand("/usr/local/rbenv/shims/ruby")
+
+
+"------------------------------------
+" neosnippet
+"------------------------------------
+
+let g:neosnippet#enable_snipmate_compatibility = 1
+let g:neosnippet#snippets_directory="~/.cache/dein/repos/github.com/honza/vim-snippets/snippets"
+
+inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<S-TAB>" 
+
+" Plugin key-mappings.
+" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
+imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+xmap <C-k>     <Plug>(neosnippet_expand_target)
+
+
+" SuperTab like snippets behavior.
+"imap <expr><TAB> neosnippet#jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-n>" : "\<TAB>"
+"smap <expr><TAB> neosnippet#jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+
+imap <expr><TAB>
+ \ pumvisible() ? "\<C-n>" :
+ \ neosnippet#expandable_or_jumpable() ?
+ \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+\ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+
+
+
+"--------------
+"jedi-vim
+"--------------
+
+
+"  let g:jedi#completions_command = "<c-space>"   
+"  let g:jedi#goto_assignments_command = "<c-g>"  
+"  let g:jedi#goto_definitions_command = "<c-d>"  
+  let g:jedi#documentation_command = "<c-k>"     
+"  let g:jedi#rename_command = "[jedi]r"
+"  let g:jedi#usages_command = "[jedi]n"
+"  let g:jedi#popup_select_first = 0
+"  let g:jedi#popup_on_dot = 0
+
+
+
+"--------------
+"nerdcommenter
+"--------------
+" Add spaces after comment delimiters by default
+let g:NERDSpaceDelims = 1
+" Use compact syntax for prettified multi-line comments
+let g:NERDCompactSexyComs = 1
+" Align line-wise comment delimiters flush left instead of following code indentation
+let g:NERDDefaultAlign = 'left'
+" Set a language to use its alternate delimiters by default
+let g:NERDAltDelims_java = 1
+" Add your own custom formats or override the defaults
+let g:NERDCustomDelimiters = { 'c': { 'left': '/**','right': '*/' } }
+" Allow commenting and inverting empty lines (useful when commenting a region)
+let g:NERDCommentEmptyLines = 1
+" Enable trimming of trailing whitespace when uncommenting
+let g:NERDTrimTrailingWhitespace = 1
+
+
+" For conceal markers.
+if has('conceal')
+ set conceallevel=2 concealcursor=i
+endif
+
+"------------------------------------
+" NERDTree https://kamiya555.github.io/2015/10/14/nerdtree-command/
+"------------------------------------
+augroup myvimrc
+    autocmd!
+augroup END
+autocmd myvimrc filetype nerdtree nnoremap <buffer> <S-k> gt
+autocmd myvimrc filetype nerdtree nnoremap <buffer> <S-j> gT
+map <C-e> :NERDTreeToggle<CR>
+
+
+"filetype on
+filetype plugin on
+syntax enable
+
+" 見た目系
+" 現在の行を強調表示
+set cursorline
+" 行末の1文字先までカーソルを移動できるように
+set virtualedit=onemore
+" インデントはスマートインデント
+set smartindent
+set expandtab
+set autoindent
+
+highlight CursorLine cterm=underline ctermfg=NONE ctermbg=NONE
+
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
+set showmatch
+set backspace=indent,eol,start
+colorscheme monokai
+syntax enable
+set t_Co=256
+
+"set paste
+" 検索時に最後まで行ったら最初に戻る
+set wrapscan
+" 検索語をハイライト表示
+set hlsearch
+inoremap <silent> jj <ESC>l
+inoremap <silent> ,, <ESC>la,<ESC>a<SPACE>
+inoremap ;; <C-O>$;<ESC>o
+
+" オムニ補完
+inoremap <C-o> <C-x><C-o><C-p>
+" tags補完
+inoremap <C-t> <C-x><C-]><C-p>
+
+nnoremap <S-l> $l
+nnoremap <S-h> 0
+nnoremap gf <C-w>gf
+nnoremap <silent> ss :w<ENTER>
+nnoremap <silent> qq :q!<ENTER>
+"nnoremap O :<C-u>call append(expand('.'), '')<Cr>j
+nnoremap t :tabnew<ENTER>
+nnoremap <S-k> gt
+nnoremap <S-j> gT
+nnoremap <C-j> <C-w>j
+nnoremap <C-h> <C-w>h
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+nnoremap <silent> <Space><Space> :tabnew<ENTER>:e ~/.vimrc<ENTER>
+nnoremap <silent> 11 :tabnew<ENTER>:e $VIM_SNIPPETS<ENTER>
+nnoremap <F3> :<C-u>tab stj <C-R>=expand('<cword>')<CR><CR>
+autocmd BufNewFile,BufRead *.py nnoremap <C-c> :!python % i-064684cb95f2b91af <ENTER>
+autocmd BufNewFile,BufRead *.py nnoremap <C-x> :!python %  <ENTER>
+autocmd BufNewFile,BufRead *.rb nnoremap <C-c> :!ruby % s3<ENTER>
+autocmd BufNewFile,BufRead *.sh nnoremap <C-c> :!bash % zabbix<ENTER>
+
+augroup vimrcEx
+  au BufRead * if line("'\"") > 0 && line("'\"") <= line("$") |
+  \ exe "normal g`\"" | endif
+augroup END
+
+"ipythonのhisotryを更新したとき、autoreload
+augroup py-checktime
+  autocmd!
+  autocmd TabEnter *.py :e!
+augroup END
+
+"カーソルを中央に固定。
+set scrolloff=1000
+
+"ハイフン付きワードを検索
+:set isk+=-
+
+" オムニ補完でプレビュー画面表示しない
+set completeopt=menuone
+
+au BufRead,BufNewFile *.yml set filetype=yaml.ansible
+
+autocmd FileType yaml.ansible set ts=2 sw=2 sts=2
+let g:ansible_unindent_after_newline = 1
+let g:ansible_name_highlight = 'b'
+let g:ansible_attribute_highlight = "ob"
+let g:ansible_extra_keywords_highlight = 1
+
+autocmd FileType html set ts=2 sw=2 sts=2
+autocmd FileType html nnoremap <buffer> <S-l> f>l
+autocmd FileType html nnoremap <buffer> <S-h> F<h
+
+autocmd FileType ruby set ts=2 sw=2 sts=2
+
+call neocomplete#custom#source('file', 'rank', 10)
