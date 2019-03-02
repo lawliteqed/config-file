@@ -153,20 +153,20 @@ noremap <S-h> 0
 nnoremap gf <C-w>gf
 nnoremap <silent> ss :w<ENTER>
 
-"nnoremap t :tabnew<ENTER>
-"nnoremap <S-k> gt
-"nnoremap <S-j> gT
-"nnoremap <silent> qq :q!<ENTER>
+nnoremap t :tabnew<ENTER>
+nnoremap <S-k> gt
+nnoremap <S-j> gT
+nnoremap <silent> qq :q!<ENTER>
 
 
 "buffer 
 "https://qiita.com/Sa2Knight/items/8a5d3b63dc45b02fc8c9
-nnoremap <silent> <S-k> :bnext<CR>
-nnoremap <silent> <S-j> :bprev<CR>
-nnoremap <silent> qq :bw!<CR>
-:set hidden
-nnoremap t :e<Space>
-nnoremap <silent> ee :q!<ENTER>
+"nnoremap <silent> <S-k> :bnext<CR>
+"nnoremap <silent> <S-j> :bprev<CR>
+"nnoremap <silent> qq :bw!<CR>
+":set hidden
+"nnoremap t :e<Space>
+"nnoremap <silent> ee :q!<ENTER>
 
 
 
