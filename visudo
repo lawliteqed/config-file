@@ -1,0 +1,3 @@
+Defaults    env_keep += "PATH"  # 追加
+Defaults    env_keep += "PYENV_ROOT"  # 追加
+
